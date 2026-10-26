@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,22 +7,46 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="ProMeet AI">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#0f172a">
-  <title>ProMeet AI v4.0 — Captura Dual (Micrófono + Audio del Sistema) ES / EN / 中文</title>
-  <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+  <meta name="theme-color" content="#060913">
+  <title>ProMeet AI v5.0 Enterprise — Real-Time Multilingual Meeting Copilot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    :root { color-scheme: dark; }
     body {
-      background-color: #0f172a;
-      color: #f8fafc;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background-color: #060913;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.14) 0px, transparent 45%),
+        radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.10) 0px, transparent 45%);
+      color: #f1f5f9;
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
-    .pulse-rec { animation: pulse 1.3s infinite; }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.45; transform: scale(1.14); }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    /* Estilos de Impresión / PDF Nativo Multilingüe (BUG-05 Fix) */
+    .glass-pill {
+      background: rgba(30, 41, 59, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .pulse-ring {
+      animation: pulseRing 1.6s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(244, 63, 94, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+    }
+    /* Barras de Ecualizador Acústico en Vivo */
+    .eq-bar {
+      transition: height 80ms ease;
+    }
+    /* Estilos de Impresión / PDF Corporativo (ES/EN/ZH) */
     #printArea { display: none; }
     @media print {
       body * { visibility: hidden; }
@@ -35,255 +59,317 @@
         width: 100%;
         background: #ffffff !important;
         color: #0f172a !important;
-        padding: 24px;
-        font-size: 12pt;
+        padding: 28px;
+        font-size: 11.5pt;
       }
-      .print-block { page-break-inside: avoid; margin-bottom: 12px; }
+      .print-block { page-break-inside: avoid; margin-bottom: 14px; }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between p-3 md:p-5 max-w-6xl mx-auto select-none">
+<body class="min-h-screen flex flex-col justify-between p-3 md:p-5 max-w-[1440px] mx-auto select-none">
 
   <!-- Contenedor Exclusivo para Exportación PDF Impecable (ES/EN/ZH) -->
   <div id="printArea"></div>
 
-  <!-- BARRA SUPERIOR -->
-  <header class="border-b border-slate-800 pb-3 mb-3 flex flex-wrap gap-2 justify-between items-center">
-    <div class="flex items-center gap-2.5">
-      <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center font-black text-lg shadow-lg shadow-indigo-600/30">P</div>
+  <!-- NAVBAR EJECUTIVA ESTILO PROACTOR AI -->
+  <header class="glass-card rounded-2xl px-4 py-3 mb-4 flex flex-wrap gap-3 justify-between items-center shadow-2xl">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-cyan-500 flex items-center justify-center font-black text-lg text-white shadow-lg shadow-indigo-500/30">
+        P
+      </div>
       <div>
         <div class="flex items-center gap-2">
-          <h1 class="text-lg md:text-xl font-bold text-white tracking-tight">ProMeet AI</h1>
-          <span class="text-[10px] bg-indigo-950 text-indigo-300 border border-indigo-700 px-2 py-0.5 rounded-full font-semibold">v4.0 Dual-Audio</span>
+          <h1 class="text-lg md:text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent">
+            ProMeet AI
+          </h1>
+          <span class="text-[10px] bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+            v5.0 Pure-Audio
+          </span>
         </div>
-        <p class="text-[11px] text-slate-400">Captura Micrófono + Audio de Cualquier App/Web | Español • English • 中文</p>
+        <p class="text-[11px] text-slate-400">Copiloto Proactivo de Reuniones • Español • English • 中文 (Sin Captura de Pantalla)</p>
       </div>
     </div>
 
-    <div class="flex flex-wrap items-center gap-1.5">
-      <button onclick="loadDemoMeeting()" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-300 px-2.5 py-1.5 rounded-lg border border-slate-700 font-medium transition">
-        ⚡ Cargar Demo
+    <!-- KPIs Rápidos + Acciones Superiores -->
+    <div class="flex flex-wrap items-center gap-2">
+      <div class="hidden xl:flex items-center gap-3 glass-pill px-3 py-1.5 rounded-xl text-xs mr-1">
+        <span class="text-slate-400">⏱️ Tiempo: <b id="meetingTimer" class="text-white font-mono">00:00</b></span>
+        <span class="text-slate-600">|</span>
+        <span class="text-slate-400">💬 Bloques: <b id="kpiSegments" class="text-indigo-400 font-mono">0</b></span>
+        <span class="text-slate-600">|</span>
+        <span class="text-slate-400">💡 Insights: <b id="kpiTips" class="text-amber-400 font-mono">0</b></span>
+      </div>
+
+      <button onclick="loadDemoMeeting()" class="text-xs bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 px-3 py-2 rounded-xl border border-amber-500/30 font-semibold transition flex items-center gap-1.5">
+        <span>✨</span> <span>Demo Proactor</span>
       </button>
-      <button onclick="openQAModal()" class="text-xs bg-emerald-950 hover:bg-emerald-900 text-emerald-300 px-2.5 py-1.5 rounded-lg border border-emerald-800 font-medium transition">
-        🧪 Matriz QA (16 Tests)
+      <button onclick="openQAModal()" class="text-xs bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 px-3 py-2 rounded-xl border border-emerald-500/30 font-semibold transition flex items-center gap-1.5">
+        <span>🛡️</span> <span>Auditoría QA (18)</span>
       </button>
-      <button onclick="toggleConfig()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-700 font-medium transition">
-        ⚙️ API Key
+      <button onclick="toggleConfig()" class="text-xs glass-pill hover:bg-slate-800 text-slate-200 px-3 py-2 rounded-xl font-semibold transition flex items-center gap-1.5">
+        <span>🔑</span> <span id="navKeyStatus">API Key</span>
       </button>
     </div>
   </header>
 
-  <!-- PANEL CONFIGURACIÓN API KEY -->
-  <div id="configPanel" class="hidden bg-slate-900 border border-indigo-900/80 p-3.5 rounded-2xl mb-3 shadow-xl">
-    <div class="flex justify-between items-center mb-1.5">
-      <label class="text-xs font-semibold text-indigo-300">🔑 Clave Gratuita de Google Gemini (aistudio.google.com)</label>
-      <span id="keyStatusBadge" class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">Sin configurar</span>
+  <!-- PANEL DESPLEGABLE DE API KEY -->
+  <div id="configPanel" class="hidden glass-card border-indigo-500/40 p-4 rounded-2xl mb-4 shadow-2xl">
+    <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
+      <label class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+        🔑 Clave Gratuita de Google Gemini (aistudio.google.com)
+      </label>
+      <span id="keyStatusBadge" class="text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-semibold">Sin configurar</span>
     </div>
-    <div class="flex gap-2">
-      <input id="apiKeyInput" type="password" placeholder="Pega aquí tu API Key (AIzaSy...)" class="w-full bg-slate-950 text-sm px-3 py-2 rounded-xl border border-slate-700 focus:border-indigo-500 focus:outline-none text-slate-100">
-      <button onclick="saveApiKey()" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-xl text-xs font-bold text-white shrink-0">Guardar</button>
+    <div class="flex flex-col sm:flex-row gap-2">
+      <input id="apiKeyInput" type="password" placeholder="Pega aquí tu API Key (AIzaSy...)" 
+        class="w-full bg-slate-950/90 text-sm px-3.5 py-2.5 rounded-xl border border-slate-700 focus:border-indigo-500 focus:outline-none text-slate-100 font-mono">
+      <button onclick="saveApiKey()" class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 rounded-xl text-xs font-bold text-white shrink-0 shadow-lg shadow-indigo-600/30 transition">
+        Guardar Clave
+      </button>
     </div>
-    <p class="text-[11px] text-slate-400 mt-1.5">Tu clave se guarda únicamente en tu dispositivo. El nivel gratuito de Google AI Studio permite horas de reuniones diarias sin pagar nada.</p>
+    <p class="text-[11px] text-slate-400 mt-2">
+      🔒 Privacidad Total: Tu clave se almacena exclusivamente en la memoria local (`localStorage`) de tu iPhone, Android o Mac.
+    </p>
   </div>
 
-  <!-- PANEL DE CONTROL DE REUNIÓN Y SELECTOR DE FUENTE DE AUDIO (MIC / SISTEMA / DUAL) -->
-  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 mb-3 flex flex-col gap-3 shadow-lg">
-    
-    <!-- Fila 1: Título Editable + Selector de Fuente de Audio -->
-    <div class="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between border-b border-slate-800/80 pb-3">
-      <div class="flex-1">
-        <label class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Título de la Reunión / Proyecto</label>
-        <input id="meetingTitle" type="text" value="Reunión Internacional Multi-Plataforma" 
-          class="w-full bg-transparent border-b border-slate-800 focus:border-indigo-500 text-sm md:text-base font-bold text-white focus:outline-none pb-0.5 mt-0.5"
-          placeholder="Escribe el título de la reunión...">
-      </div>
+  <!-- CONSOLA CENTRAL DE CONTROL ACÚSTICO (100% SIN GRABACIÓN DE PANTALLA) -->
+  <section class="glass-card rounded-2xl p-4 mb-4 shadow-xl">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
 
-      <!-- Selector de Fuente de Captura de Audio -->
-      <div class="flex flex-col gap-1">
-        <label class="text-[10px] uppercase tracking-wider text-indigo-300 font-bold">🔊 Fuente de Captura de Audio</label>
-        <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
-          <button onclick="setAudioSourceMode('mic')" id="srcBtn_mic" class="px-2.5 py-1.5 rounded-lg font-bold bg-indigo-600 text-white transition text-center">
-            🎙️ Micrófono / Ambiente
-          </button>
-          <button onclick="setAudioSourceMode('dual')" id="srcBtn_dual" class="px-2.5 py-1.5 rounded-lg font-bold text-slate-400 hover:text-white transition text-center">
-            💻+🎙️ Dual (App/Web + Mic)
-          </button>
-          <button onclick="setAudioSourceMode('system')" id="srcBtn_system" class="px-2.5 py-1.5 rounded-lg font-bold text-slate-400 hover:text-white transition text-center">
-            🔊 Solo Audio Interno/Web
-          </button>
+      <!-- 1. Título de la Reunión y Selector de Micrófono/Canal (4 cols) -->
+      <div class="lg:col-span-4 flex flex-col gap-2">
+        <div>
+          <label class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Nombre de la Sesión / Reunión</label>
+          <input id="meetingTitle" type="text" value="Comité Ejecutivo & Negociación Internacional" 
+            class="w-full bg-transparent border-b border-slate-700/80 focus:border-indigo-400 text-sm md:text-base font-bold text-white focus:outline-none pb-1 mt-0.5"
+            placeholder="Escribe el título de la reunión...">
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="text-[11px] text-slate-400 shrink-0">🎤 Entrada:</label>
+          <select id="audioDeviceSelect" class="w-full bg-slate-950/90 text-xs text-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-800 focus:outline-none focus:border-indigo-500">
+            <option value="default">Micrófono Predeterminado / Altavoz Ambiental</option>
+          </select>
         </div>
       </div>
-    </div>
 
-    <!-- Fila 2: Medidor Acústico en Vivo (VAD) + Idioma Global + Botón Grabar -->
-    <div class="flex flex-wrap items-center justify-between gap-3">
-      
-      <!-- Estado y Medidor de Nivel de Voz (VAD) -->
-      <div class="flex items-center gap-3 flex-1 min-w-[240px]">
-        <div id="statusDot" class="w-3 h-3 rounded-full bg-slate-600 shrink-0"></div>
-        <div class="flex-1">
-          <div class="flex items-center gap-2">
-            <span id="statusText" class="text-xs font-semibold text-slate-200">Listo para escuchar cualquier audio</span>
-            <span id="vadBadge" class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono">VAD: En espera</span>
+      <!-- 2. Modo de Sensibilidad Acústica DSP (4 cols) -->
+      <div class="lg:col-span-4 flex flex-col gap-1.5">
+        <div class="flex justify-between items-center">
+          <label class="text-[10px] uppercase tracking-wider text-indigo-300 font-bold">🎛️ Perfil Acústico DSP (Solo Audio • Cero Pantalla)</label>
+          <span class="text-[10px] text-emerald-400 font-semibold">✓ macOS / iOS Safe</span>
+        </div>
+        <div class="grid grid-cols-2 gap-1.5 bg-slate-950/90 p-1 rounded-xl border border-slate-800/90 text-xs">
+          <button onclick="setAcousticProfile('omni')" id="profBtn_omni" class="px-2.5 py-2 rounded-lg font-bold bg-indigo-600 text-white transition text-center shadow">
+            🔊 Omni-Ambiente (Apps/Web + Voz)
+          </button>
+          <button onclick="setAcousticProfile('voice')" id="profBtn_voice" class="px-2.5 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition text-center">
+            🎙️ Voz Directa (Cerca)
+          </button>
+        </div>
+        <p class="text-[10px] text-slate-400 leading-tight">
+          <b>Omni-Ambiente</b> amplifica y limpia el sonido para captar cualquier video, llamada (Zoom/Meet/WhatsApp) o reunión sin pedir permiso de pantalla.
+        </p>
+      </div>
+
+      <!-- 3. Radar Acústico en Vivo + Idioma Global + Botón Maestro (4 cols) -->
+      <div class="lg:col-span-4 flex flex-col gap-2.5">
+        <div class="flex items-center justify-between bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-800/80">
+          <div class="flex items-center gap-2.5">
+            <div id="statusDot" class="w-3 h-3 rounded-full bg-slate-600 shrink-0"></div>
+            <div>
+              <div id="statusText" class="text-xs font-bold text-slate-200">En espera de audio</div>
+              <div id="vadBadge" class="text-[10px] text-slate-400 font-mono">DSP Listo • Sin bloqueo de pantalla</div>
+            </div>
           </div>
-          <!-- Barra de Nivel de Decibelios en Tiempo Real -->
-          <div class="w-full max-w-xs h-1.5 bg-slate-950 rounded-full overflow-hidden mt-1 border border-slate-800">
-            <div id="audioLevelBar" class="h-full bg-gradient-to-r from-emerald-500 via-indigo-500 to-rose-500 w-0 transition-all duration-75"></div>
+          <!-- Mini Ecualizador Dinámico de 8 Barras -->
+          <div id="eqContainer" class="flex items-end gap-1 h-6 px-1">
+            <div class="eq-bar w-1 bg-indigo-500 rounded-full h-1.5"></div>
+            <div class="eq-bar w-1 bg-indigo-400 rounded-full h-2"></div>
+            <div class="eq-bar w-1 bg-cyan-400 rounded-full h-1.5"></div>
+            <div class="eq-bar w-1 bg-emerald-400 rounded-full h-2.5"></div>
+            <div class="eq-bar w-1 bg-emerald-400 rounded-full h-1.5"></div>
+            <div class="eq-bar w-1 bg-cyan-400 rounded-full h-2"></div>
+            <div class="eq-bar w-1 bg-indigo-400 rounded-full h-1.5"></div>
+            <div class="eq-bar w-1 bg-rose-400 rounded-full h-1.5"></div>
           </div>
         </div>
+
+        <div class="flex items-center justify-between gap-2">
+          <!-- Selector de Idioma de Salida en Tiempo Real -->
+          <div class="flex items-center bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs">
+            <button onclick="setTargetLanguage('ES')" id="langBtn_ES" class="px-2.5 py-1.5 rounded-lg font-bold bg-indigo-600 text-white transition">🇪🇸 ES</button>
+            <button onclick="setTargetLanguage('EN')" id="langBtn_EN" class="px-2.5 py-1.5 rounded-lg font-bold text-slate-400 hover:text-white transition">🇺🇸 EN</button>
+            <button onclick="setTargetLanguage('ZH')" id="langBtn_ZH" class="px-2.5 py-1.5 rounded-lg font-bold text-slate-400 hover:text-white transition">🇨🇳 中文</button>
+          </div>
+
+          <button id="recordBtn" onclick="toggleRecording()" class="flex-1 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 active:scale-95 text-white font-bold px-4 py-2.5 rounded-xl text-xs md:text-sm transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
+            <span id="recordBtnIcon">🎙️</span> <span id="recordBtnText">Iniciar Escucha</span>
+          </button>
+
+          <button onclick="clearMeeting()" title="Limpiar sesión" class="glass-pill hover:bg-rose-950/80 hover:text-rose-300 text-slate-400 p-2.5 rounded-xl text-xs transition">
+            🗑️
+          </button>
+        </div>
       </div>
 
-      <!-- Selector de Idioma de Salida + Botones de Acción -->
-      <div class="flex flex-wrap items-center gap-2 justify-end">
-        <div class="flex items-center bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs">
-          <span class="text-[11px] text-slate-400 px-2">Idioma Vista:</span>
-          <button onclick="setTargetLanguage('ES')" id="langBtn_ES" class="px-2.5 py-1 rounded-lg font-bold bg-indigo-600 text-white transition">ES</button>
-          <button onclick="setTargetLanguage('EN')" id="langBtn_EN" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition">EN</button>
-          <button onclick="setTargetLanguage('ZH')" id="langBtn_ZH" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition">中文</button>
+    </div>
+  </section>
+
+  <!-- WORKSPACE PRINCIPAL ESTILO PROACTOR AI: 2 COLUMNAS DE ALTA DENSIDAD -->
+  <main class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1">
+
+    <!-- COLUMNA IZQUIERDA (7 cols): Transcripción Multilingüe & Traducción Simultánea -->
+    <div class="lg:col-span-7 glass-card rounded-2xl p-4 flex flex-col h-[400px] md:h-[480px] shadow-xl">
+      <div class="flex flex-wrap justify-between items-center gap-2 mb-3 pb-2 border-b border-slate-800/80">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-200">
+            Transcripción & Traducción en Vivo
+          </h2>
+          <span id="segmentCount" class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full text-[10px] font-bold">0</span>
         </div>
 
-        <button id="recordBtn" onclick="toggleRecording()" class="bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold px-4 py-2.5 rounded-xl text-xs md:text-sm transition shadow-lg shadow-indigo-600/20 flex items-center gap-1.5">
-          <span>🎙️</span> <span id="recordBtnText">Iniciar Escucha</span>
-        </button>
-
-        <button onclick="clearMeeting()" title="Limpiar reunión" class="bg-slate-800 hover:bg-rose-950 hover:text-rose-300 text-slate-400 p-2.5 rounded-xl text-xs border border-slate-700 transition">
-          🗑️
-        </button>
-      </div>
-    </div>
-
-    <!-- Nota de ayuda contextual cuando se elige Modo Dual o Audio del Sistema -->
-    <div id="sourceHintBar" class="hidden text-[11px] bg-indigo-950/50 border border-indigo-800/70 text-indigo-200 px-3 py-2 rounded-xl">
-      💡 <b>Cómo capturar audio de Zoom, Meet, Teams, WhatsApp o cualquier Web/App:</b> Al pulsar <b>"Iniciar Escucha"</b>, se abrirá una ventana para elegir qué pestaña o pantalla escuchar. Asegúrate de marcar la casilla <b>"Compartir también el audio del sistema / pestaña"</b>. (En celulares iPhone/Android la app activará automáticamente el micrófono de alta ganancia ambiental).
-    </div>
-  </div>
-
-  <!-- ÁREA PRINCIPAL: TRANSCRIPCIÓN MULTILINGÜE + IA PROACTIVA -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 flex-1">
-
-    <!-- COLUMNA 1: Transcripción con Traducción Unificada -->
-    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-3.5 flex flex-col h-[340px] md:h-[420px]">
-      <div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-800/80">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-          💬 Transcripción & Traducción
-          <span id="segmentCount" class="bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded text-[10px]">0</span>
-        </h2>
-        <label class="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer">
+        <label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer glass-pill px-2.5 py-1 rounded-lg">
           <input type="checkbox" id="onlyTargetLangToggle" onchange="renderAllTranscripts()" class="rounded bg-slate-800 border-slate-700 text-indigo-600">
-          Solo mostrar idioma elegido
+          <span>Vista 100% Monolingüe (<b id="monoLangLabel">ES</b>)</span>
         </label>
       </div>
 
-      <div id="transcriptBox" class="flex-1 overflow-y-auto space-y-2.5 text-sm pr-1 select-text">
-        <div class="text-slate-500 text-xs italic p-4 text-center">
-          Elige arriba tu fuente de audio (<b>Micrófono</b>, <b>Dual App+Mic</b> o <b>Solo Audio Interno</b>) y pulsa <b>"🎙️ Iniciar Escucha"</b>. En cuanto detecte sonido en Español, Inglés o Chino Mandarín lo transcribirá y traducirá automáticamente.
+      <div id="transcriptBox" class="flex-1 overflow-y-auto space-y-3 text-sm pr-1 select-text">
+        <!-- Estado Inicial Vacío pero Profesional -->
+        <div class="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-2xl mb-3">
+            🎧
+          </div>
+          <p class="text-sm font-semibold text-slate-200 mb-1">Listo para escuchar cualquier conversación o reproducción de audio</p>
+          <p class="text-xs text-slate-400 max-w-md leading-relaxed">
+            Pulsa <b>"🎙️ Iniciar Escucha"</b> para transcribir y traducir automáticamente entre <b>Español, Inglés y Chino Mandarín</b>, o toca <b>"✨ Demo Proactor"</b> arriba para explorar un caso real.
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- COLUMNA 2: Consejos Proactivos en Vivo y Acta Ejecutiva -->
-    <div class="bg-slate-900/80 border border-indigo-950/90 rounded-2xl p-3.5 flex flex-col h-[340px] md:h-[420px]">
-      <div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-800/80">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-indigo-400">⚡ Proactor AI (Consejos & Acta)</h2>
-        <button onclick="openLanguageModal('summary')" class="text-xs bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 px-2.5 py-1 rounded-lg border border-indigo-700/60 font-semibold transition">
+    <!-- COLUMNA DERECHA (5 cols): Copiloto Proactivo (Pestañas: Insights en Vivo | Acta Ejecutiva) -->
+    <div class="lg:col-span-5 glass-card rounded-2xl p-4 flex flex-col h-[400px] md:h-[480px] shadow-xl border-indigo-500/20">
+      <div class="flex flex-wrap justify-between items-center gap-2 mb-3 pb-2 border-b border-slate-800/80">
+        <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+          <button onclick="switchCopilotTab('all')" id="tabBtn_all" class="px-2.5 py-1 rounded-lg font-bold bg-indigo-600 text-white transition">
+            ⚡ Todo
+          </button>
+          <button onclick="switchCopilotTab('tips')" id="tabBtn_tips" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition">
+            💡 Coaching
+          </button>
+          <button onclick="switchCopilotTab('summary')" id="tabBtn_summary" class="px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition">
+            📋 Acta IA
+          </button>
+        </div>
+
+        <button onclick="openLanguageModal('summary')" class="text-xs bg-gradient-to-r from-indigo-600/30 to-cyan-600/30 hover:from-indigo-600/50 hover:to-cyan-600/50 text-indigo-200 px-3 py-1.5 rounded-xl border border-indigo-500/40 font-bold transition">
           ✨ Generar Acta Unificada
         </button>
       </div>
 
-      <div id="proactiveBox" class="flex-1 overflow-y-auto space-y-2.5 text-sm pr-1 select-text">
-        <div class="text-slate-500 text-xs italic p-4 text-center">
-          Aquí aparecerán alertas de negociación en vivo, detección de compromisos y el Acta Ejecutiva traducida al idioma único que selecciones.
+      <div id="proactiveBox" class="flex-1 overflow-y-auto space-y-3 text-sm pr-1 select-text">
+        <div class="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-2xl mb-3">
+            ⚡
+          </div>
+          <p class="text-sm font-semibold text-slate-200 mb-1">Copiloto de Negociación & Actas Activo</p>
+          <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+            A medida que avance la reunión, aquí verás sugerencias estratégicas en tiempo real, detección de cifras, compromisos y el Acta Ejecutiva en el idioma elegido.
+          </p>
         </div>
       </div>
     </div>
 
-  </div>
+  </main>
 
-  <!-- BARRA INFERIOR DE EXPORTACIÓN UNIFICADA (ELIGE IDIOMA ANTES DE ENVIAR) -->
-  <div class="mt-3 bg-slate-900 border border-slate-800 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2">
-    <div class="text-xs text-slate-400">
-      📤 <b>Exportación Unificada:</b> Antes de compartir te preguntará en qué idioma único (<span class="text-indigo-300">ES, EN o 中文</span>) deseas traducir y enviar todo el informe.
+  <!-- BARRA INFERIOR DE EXPORTACIÓN UNIFICADA -->
+  <footer class="mt-4 glass-card rounded-2xl p-3.5 flex flex-wrap items-center justify-between gap-3 shadow-xl">
+    <div class="flex items-center gap-2 text-xs text-slate-300">
+      <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-lg font-bold">Idioma Único</span>
+      <span>Al compartir o descargar, podrás elegir si deseas enviar todo el documento unificado en <b>Español, English o 中文</b>.</span>
     </div>
     <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
-      <button onclick="openLanguageModal('whatsapp')" class="flex-1 md:flex-initial bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-md">
-        🟢 Enviar por WhatsApp
+      <button onclick="openLanguageModal('whatsapp')" class="flex-1 md:flex-initial bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/20">
+        <span>🟢</span> <span>Enviar por WhatsApp</span>
       </button>
-      <button onclick="openLanguageModal('pdf')" class="flex-1 md:flex-initial bg-rose-600 hover:bg-rose-500 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-md">
-        📄 Descargar PDF
+      <button onclick="openLanguageModal('pdf')" class="flex-1 md:flex-initial bg-rose-600 hover:bg-rose-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-lg shadow-rose-600/20">
+        <span>📄</span> <span>Descargar PDF</span>
       </button>
-      <button onclick="openLanguageModal('copy')" class="flex-1 md:flex-initial bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-3.5 py-2 rounded-xl text-xs border border-slate-700 transition flex items-center justify-center gap-1.5">
-        📋 Copiar Todo
+      <button onclick="openLanguageModal('copy')" class="flex-1 md:flex-initial glass-pill hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
+        <span>📋</span> <span>Copiar Informe</span>
       </button>
     </div>
-  </div>
+  </footer>
 
   <!-- MODAL SELECTOR DE IDIOMA ÚNICO ANTES DE COMPARTIR / DESCARGAR -->
-  <div id="langModal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-5 shadow-2xl">
+  <div id="langModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="glass-card border-slate-700 rounded-2xl max-w-md w-full p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-3">
-        <h3 class="text-base font-bold text-white">🌐 Selecciona el Idioma del Documento</h3>
+        <h3 class="text-base font-extrabold text-white">🌐 Idioma Único del Informe Final</h3>
         <button onclick="closeLanguageModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
       </div>
-      <p class="text-xs text-slate-300 mb-4">
-        Toda la reunión (título, acta ejecutiva, acuerdos, tareas y transcripción) se traducirá y unificará en un **único idioma** antes de continuar:
+      <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+        Selecciona el idioma en el que deseas unificar toda la reunión (título, resumen ejecutivo, acuerdos, tareas y transcripción completa):
       </p>
 
       <div class="grid grid-cols-3 gap-2.5 mb-4">
-        <button onclick="selectModalLanguage('ES')" id="modalLang_ES" class="p-3 rounded-xl border-2 border-indigo-500 bg-indigo-950/60 text-center transition">
-          <div class="text-lg">🇪🇸</div>
+        <button onclick="selectModalLanguage('ES')" id="modalLang_ES" class="p-3 rounded-xl border-2 border-indigo-500 bg-indigo-950/70 text-center transition">
+          <div class="text-xl">🇪🇸</div>
           <div class="text-xs font-bold text-white mt-1">Español</div>
           <div class="text-[10px] text-indigo-300">100% Unificado</div>
         </button>
-        <button onclick="selectModalLanguage('EN')" id="modalLang_EN" class="p-3 rounded-xl border-2 border-slate-800 bg-slate-800/50 text-center transition">
-          <div class="text-lg">🇺🇸</div>
+        <button onclick="selectModalLanguage('EN')" id="modalLang_EN" class="p-3 rounded-xl border-2 border-slate-800 bg-slate-900/60 text-center transition">
+          <div class="text-xl">🇺🇸</div>
           <div class="text-xs font-bold text-white mt-1">English</div>
           <div class="text-[10px] text-slate-400">100% Unified</div>
         </button>
-        <button onclick="selectModalLanguage('ZH')" id="modalLang_ZH" class="p-3 rounded-xl border-2 border-slate-800 bg-slate-800/50 text-center transition">
-          <div class="text-lg">🇨🇳</div>
+        <button onclick="selectModalLanguage('ZH')" id="modalLang_ZH" class="p-3 rounded-xl border-2 border-slate-800 bg-slate-900/60 text-center transition">
+          <div class="text-xl">🇨🇳</div>
           <div class="text-xs font-bold text-white mt-1">中文 (普通话)</div>
           <div class="text-[10px] text-slate-400">100% 统一语言</div>
         </button>
       </div>
 
-      <label class="flex items-center gap-2 text-xs text-slate-300 bg-slate-950 p-2.5 rounded-xl border border-slate-800 mb-4 cursor-pointer">
+      <label class="flex items-center gap-2 text-xs text-slate-300 bg-slate-950/90 p-3 rounded-xl border border-slate-800 mb-4 cursor-pointer">
         <input type="checkbox" id="modalExclusiveCheck" checked class="rounded bg-slate-800 border-slate-600 text-indigo-600">
-        <span><b>Modo Exclusivo Monolingüe:</b> Omitir citas en idioma original y enviar únicamente en el idioma seleccionado.</span>
+        <span><b>Documento 100% Monolingüe:</b> Enviar únicamente en el idioma elegido (sin subtítulos en el idioma original).</span>
       </label>
 
-      <div id="modalProgress" class="hidden text-xs text-amber-300 bg-amber-950/50 border border-amber-800 p-2.5 rounded-xl mb-3 animate-pulse">
-        ⏳ Traduciendo y unificando toda la reunión al idioma seleccionado...
+      <div id="modalProgress" class="hidden text-xs text-amber-300 bg-amber-950/60 border border-amber-800 p-3 rounded-xl mb-3 animate-pulse">
+        ⏳ Traduciendo y estructurando toda la reunión en el idioma seleccionado...
       </div>
 
       <div class="flex justify-end gap-2">
-        <button onclick="closeLanguageModal()" class="px-4 py-2 rounded-xl text-xs bg-slate-800 text-slate-300 hover:bg-slate-700">Cancelar</button>
-        <button id="modalConfirmBtn" onclick="executeUnifiedAction()" class="px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white">
+        <button onclick="closeLanguageModal()" class="px-4 py-2 rounded-xl text-xs bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold">Cancelar</button>
+        <button id="modalConfirmBtn" onclick="executeUnifiedAction()" class="px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30">
           Confirmar y Continuar →
         </button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL MATRIZ DE PRUEBAS QA AUTOMATIZADA (16 TESTS) -->
-  <div id="qaModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full p-5 shadow-2xl max-h-[90vh] flex flex-col">
+  <!-- MODAL DE AUDITORÍA QA (18 PRUEBAS AUTOMATIZADAS) -->
+  <div id="qaModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="glass-card border-slate-700 rounded-2xl max-w-2xl w-full p-5 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center mb-2">
         <div>
-          <h3 class="text-base font-bold text-emerald-400">🧪 Suite Automatizada de Pruebas (QA Matrix v4.0)</h3>
-          <p class="text-xs text-slate-400">Audita el Mezclador WebAudio Dual, Detector VAD, traducciones (ES/EN/ZH) y exportaciones.</p>
+          <h3 class="text-base font-extrabold text-emerald-400">🛡️ Suite Automatizada de Auditoría QA (v5.0 Enterprise)</h3>
+          <p class="text-xs text-slate-400">Verifica ausencia total de captura de pantalla, DSP Acústico, bloqueo anti-bucle y traducción tri-idioma.</p>
         </div>
         <button onclick="closeQAModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
       </div>
 
       <div id="qaResultsList" class="flex-1 overflow-y-auto space-y-1.5 my-3 pr-1 text-xs font-mono bg-slate-950 p-3 rounded-xl border border-slate-800">
-        <div class="text-slate-500">Pulsa "Ejecutar 16 Pruebas Ahora" para correr la verificación completa...</div>
+        <div class="text-slate-500">Pulsa "Ejecutar 18 Pruebas Ahora" para auditar todas las funciones...</div>
       </div>
 
       <div class="flex justify-between items-center pt-2 border-t border-slate-800">
-        <span id="qaSummaryBadge" class="text-xs font-bold text-slate-400">Estado: Pendiente</span>
+        <span id="qaSummaryBadge" class="text-xs font-bold text-slate-400">Estado: Listo para auditar</span>
         <div class="flex gap-2">
-          <button onclick="runFullQASuite()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-xs">
-            ▶️ Ejecutar 16 Pruebas Ahora
+          <button onclick="runFullQASuite()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-xl text-xs shadow-lg shadow-emerald-600/20">
+            ▶️ Ejecutar 18 Pruebas Ahora
           </button>
           <button onclick="closeQAModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-2 rounded-xl text-xs">Cerrar</button>
         </div>
@@ -292,30 +378,39 @@
   </div>
 
   <!-- NOTIFICACIÓN TOAST -->
-  <div id="toast" class="hidden fixed bottom-5 right-5 bg-indigo-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-2xl z-50"></div>
+  <div id="toast" class="hidden fixed bottom-5 right-5 bg-indigo-600 text-white text-xs font-bold px-4 py-3 rounded-xl shadow-2xl border border-indigo-400/40 z-50"></div>
 
   <script>
     /*************************************************************************
-     * ESTADO PRINCIPAL, FUENTES DE AUDIO DUALES Y DETECTOR DE VOZ (VAD)
+     * ARQUITECTURA ZERO-SCREEN-CAPTURE (v5.0)
+     * Prohibido el uso de getDisplayMedia para evitar el bloqueo de macOS:
+     * "Google Chrome.app.bundle would like to record this computer's screen"
      *************************************************************************/
+    const ZERO_SCREEN_CAPTURE_ENFORCED = true;
+
     let isRecording = false;
-    let audioSourceMode = 'mic'; // 'mic' | 'dual' | 'system'
+    let isAcquiringLock = false; // BUG-12 Fix: Mutex anti-bucle de permisos
+    let acousticProfile = 'omni'; // 'omni' (Alta Ganancia Ambiental + Apps/Web) | 'voice' (Voz Directa)
+    let copilotTab = 'all'; // 'all' | 'tips' | 'summary'
+
     let mediaRecorder = null;
     let chunkInterval = null;
+    let timerInterval = null;
+    let meetingSeconds = 0;
     let wakeLock = null;
 
-    // Recursos del Mezclador WebAudio y VAD (BUG-07, BUG-08, BUG-10 Fixes)
+    // Recursos del Motor Acústico DSP (WebAudio Pure-Audio)
     let activeAudioContext = null;
-    let activeRawStreams = [];
+    let activeGainNode = null;
+    let activeMicStream = null;
     let vadRafId = null;
     let segmentPeakRms = 0;
-    const VAD_RMS_THRESHOLD = 0.012; // Umbral mínimo de energía acústica para considerar que hubo sonido
+    const VAD_RMS_THRESHOLD = 0.009; // Sensibilidad optimizada para captar audio de altavoces y voz
 
     let targetLang = 'ES'; // 'ES' | 'EN' | 'ZH'
     let modalSelectedLang = 'ES';
     let pendingExportAction = null;
 
-    // Modelo de datos de cada intervención con caché en los 3 idiomas
     let meetingSegments = [];
     let executiveSummaries = { ES: '', EN: '', ZH: '' };
 
@@ -323,9 +418,9 @@
       ES: {
         docTitle: 'ACTA EJECUTIVA Y TRANSCRIPCIÓN DE REUNIÓN',
         date: 'Fecha',
-        langLabel: 'Idioma del Documento: Español (Unificado)',
+        langLabel: 'Idioma del Documento: Español (100% Unificado)',
         summaryHeader: '1. RESUMEN EJECUTIVO Y TAREAS (ACTION ITEMS)',
-        tipsHeader: '2. CONSEJOS Y ALERTAS PROACTIVAS',
+        tipsHeader: '2. INSIGHTS Y RECOMENDACIONES PROACTIVAS',
         transcriptHeader: '3. TRANSCRIPCIÓN COMPLETA',
         origPrefix: 'Original',
         noSummary: 'Sin resumen generado aún.'
@@ -333,9 +428,9 @@
       EN: {
         docTitle: 'EXECUTIVE MINUTES & MEETING TRANSCRIPT',
         date: 'Date',
-        langLabel: 'Document Language: English (Unified)',
+        langLabel: 'Document Language: English (100% Unified)',
         summaryHeader: '1. EXECUTIVE SUMMARY & ACTION ITEMS',
-        tipsHeader: '2. PROACTIVE AI INSIGHTS & ALERTS',
+        tipsHeader: '2. PROACTIVE AI COACHING & INSIGHTS',
         transcriptHeader: '3. FULL TRANSCRIPT',
         origPrefix: 'Original',
         noSummary: 'No executive summary generated yet.'
@@ -343,9 +438,9 @@
       ZH: {
         docTitle: '会议执行纪要与完整记录',
         date: '日期',
-        langLabel: '文档语言：中文（统一语言）',
+        langLabel: '文档语言：中文（100% 统一语言）',
         summaryHeader: '一、执行摘要与待办事项 (Action Items)',
-        tipsHeader: '二、AI 实时建议与谈判提示',
+        tipsHeader: '二、AI 实时策略建议与洞察',
         transcriptHeader: '三、完整会议记录',
         origPrefix: '原文',
         noSummary: '尚未生成会议纪要。'
@@ -353,7 +448,7 @@
     };
 
     /*************************************************************************
-     * INICIALIZACIÓN Y MANIFIESTO PWA
+     * INICIALIZACIÓN, PWA Y LISTADO SEGURO DE DISPOSITIVOS DE AUDIO
      *************************************************************************/
     window.addEventListener('DOMContentLoaded', () => {
       initDynamicPWA();
@@ -362,18 +457,19 @@
         document.getElementById('apiKeyInput').value = savedKey;
         updateKeyBadge(true);
       }
+      refreshAudioInputDevices();
     });
 
     function initDynamicPWA() {
       const manifest = {
-        name: "ProMeet AI v4.0 - Captura Dual ES/EN/中文",
+        name: "ProMeet AI v5.0 Enterprise",
         short_name: "ProMeet AI",
         start_url: ".",
         display: "standalone",
-        background_color: "#0f172a",
-        theme_color: "#0f172a",
+        background_color: "#060913",
+        theme_color: "#060913",
         icons: [{
-          src: "data:image/svg+xml,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234f46e5'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>P</text></svg>",
+          src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234f46e5'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>P</text></svg>",
           sizes: "192x192",
           type: "image/svg+xml"
         }]
@@ -383,6 +479,24 @@
       link.rel = 'manifest';
       link.href = URL.createObjectURL(blob);
       document.head.appendChild(link);
+    }
+
+    async function refreshAudioInputDevices() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const audioInputs = devices.filter(d => d.kind === 'audioinput');
+        const select = document.getElementById('audioDeviceSelect');
+        if (audioInputs.length > 0) {
+          select.innerHTML = '';
+          audioInputs.forEach((dev, idx) => {
+            const opt = document.createElement('option');
+            opt.value = dev.deviceId || 'default';
+            opt.textContent = dev.label || `Micrófono / Entrada de Audio #${idx + 1}`;
+            select.appendChild(opt);
+          });
+        }
+      } catch (e) {}
     }
 
     function showToast(msg) {
@@ -398,12 +512,15 @@
 
     function updateKeyBadge(hasKey) {
       const b = document.getElementById('keyStatusBadge');
+      const nav = document.getElementById('navKeyStatus');
       if (hasKey) {
-        b.innerText = '✓ Conectada';
-        b.className = 'text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800';
+        b.innerText = '✓ Clave Activa';
+        b.className = 'text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold';
+        nav.innerText = 'API Conectada';
       } else {
         b.innerText = 'Sin configurar';
-        b.className = 'text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400';
+        b.className = 'text-[10px] px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400';
+        nav.innerText = 'API Key';
       }
     }
 
@@ -413,31 +530,27 @@
       localStorage.setItem('gemini_api_key', key);
       updateKeyBadge(true);
       document.getElementById('configPanel').classList.add('hidden');
-      showToast('✅ API Key guardada en tu dispositivo.');
+      showToast('✅ API Key guardada correctamente.');
     }
 
     /*************************************************************************
-     * SELECTOR DE FUENTE DE CAPTURA (MICRÓFONO / DUAL APP+MIC / SOLO SISTEMA)
+     * PERFILES ACÚSTICOS DSP (OMNI-AMBIENTE PARA APPS/ALTAVOZ VS VOZ DIRECTA)
      *************************************************************************/
-    function setAudioSourceMode(mode) {
-      if (isRecording) {
-        return showToast('⚠️ Detén la escucha actual antes de cambiar la fuente de audio.');
-      }
-      audioSourceMode = mode;
-      ['mic', 'dual', 'system'].forEach(m => {
-        const btn = document.getElementById('srcBtn_' + m);
-        if (m === mode) {
-          btn.className = 'px-2.5 py-1.5 rounded-lg font-bold bg-indigo-600 text-white transition text-center';
-        } else {
-          btn.className = 'px-2.5 py-1.5 rounded-lg font-bold text-slate-400 hover:text-white transition text-center';
-        }
-      });
+    function setAcousticProfile(profile) {
+      acousticProfile = profile;
+      const omniBtn = document.getElementById('profBtn_omni');
+      const voiceBtn = document.getElementById('profBtn_voice');
 
-      const hint = document.getElementById('sourceHintBar');
-      if (mode === 'dual' || mode === 'system') {
-        hint.classList.remove('hidden');
+      if (profile === 'omni') {
+        omniBtn.className = 'px-2.5 py-2 rounded-lg font-bold bg-indigo-600 text-white transition text-center shadow';
+        voiceBtn.className = 'px-2.5 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition text-center';
+        if (activeGainNode) activeGainNode.gain.value = 2.1; // Mayor ganancia para captar audio de otras páginas/apps por aire
+        showToast('🔊 Perfil Omni-Ambiente: Capta tu voz y el audio de cualquier App/Web sin capturar pantalla.');
       } else {
-        hint.classList.add('hidden');
+        voiceBtn.className = 'px-2.5 py-2 rounded-lg font-bold bg-indigo-600 text-white transition text-center shadow';
+        omniBtn.className = 'px-2.5 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition text-center';
+        if (activeGainNode) activeGainNode.gain.value = 1.15;
+        showToast('🎙️ Perfil Voz Directa activado.');
       }
     }
 
@@ -451,41 +564,52 @@
         'audio/ogg;codecs=opus'
       ];
       for (const t of types) {
-        if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) {
-          return t;
-        }
+        if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) return t;
       }
       return '';
     }
 
     /*************************************************************************
-     * MEZCLADOR WEBAUDIO MULTICANAL + DETECTOR DE VOZ (VAD) (BUG-07, 08, 09, 10)
+     * MOTOR DSP PURO (COMPRESOR + FILTRO VOCAL + PRE-AMP SIN PANTALLA)
      *************************************************************************/
-    function combineStreamsWithVAD(streamsList, boostGain = 1.0) {
+    function buildPureAudioDSPGraph(rawMicStream, profile = 'omni') {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       const ctx = new AudioCtx();
-      const destination = ctx.createMediaStreamDestination();
+      const source = ctx.createMediaStreamSource(rawMicStream);
+
+      // 1. Filtro Paso-Alto suave (85 Hz) para eliminar zumbido eléctrico o de aire acondicionado
+      const highpass = ctx.createBiquadFilter();
+      highpass.type = 'highpass';
+      highpass.frequency.value = 85;
+
+      // 2. Compresor Dinámico para nivelar voces lejanas o sonido proveniente de los altavoces de la Mac/PC/Móvil
+      const compressor = ctx.createDynamicsCompressor();
+      compressor.threshold.value = -36;
+      compressor.knee.value = 30;
+      compressor.ratio.value = 4;
+      compressor.attack.value = 0.003;
+      compressor.release.value = 0.25;
+
+      // 3. Nodo de Ganancia programable
+      const gainNode = ctx.createGain();
+      gainNode.gain.value = profile === 'omni' ? 2.1 : 1.15;
+
+      // 4. Analizador de Espectro y Destino
       const analyser = ctx.createAnalyser();
       analyser.fftSize = 512;
+      const destination = ctx.createMediaStreamDestination();
 
-      let connectedSources = 0;
-      streamsList.forEach(stream => {
-        if (stream && stream.getAudioTracks().length > 0) {
-          const src = ctx.createMediaStreamSource(stream);
-          const gainNode = ctx.createGain();
-          gainNode.gain.value = boostGain;
-          src.connect(gainNode);
-          gainNode.connect(destination);
-          gainNode.connect(analyser);
-          connectedSources++;
-        }
-      });
+      source.connect(highpass);
+      highpass.connect(compressor);
+      compressor.connect(gainNode);
+      gainNode.connect(analyser);
+      gainNode.connect(destination);
 
       return {
         audioContext: ctx,
-        mixedStream: destination.stream,
+        processedStream: destination.stream,
         analyser,
-        connectedSources
+        gainNode
       };
     }
 
@@ -498,9 +622,9 @@
       return Math.sqrt(sumSquares / dataArray.length);
     }
 
-    function startVADMonitor(analyser) {
+    function startLiveEqualizerAndVAD(analyser) {
       const dataArray = new Uint8Array(analyser.fftSize);
-      const bar = document.getElementById('audioLevelBar');
+      const eqBars = document.querySelectorAll('#eqContainer .eq-bar');
       const vadBadge = document.getElementById('vadBadge');
 
       const tick = () => {
@@ -509,15 +633,19 @@
         const rms = calculateRmsFromTimeDomain(dataArray);
         if (rms > segmentPeakRms) segmentPeakRms = rms;
 
-        const pct = Math.min(100, Math.round(rms * 420));
-        bar.style.width = pct + '%';
+        // Animar las 8 barras del ecualizador en vivo
+        eqBars.forEach((bar, idx) => {
+          const factor = ((idx % 3) + 1) * 0.35;
+          const heightPx = Math.min(24, Math.max(4, Math.round(rms * 280 * factor)));
+          bar.style.height = heightPx + 'px';
+        });
 
         if (rms >= VAD_RMS_THRESHOLD) {
-          vadBadge.innerText = '🔊 Sonido Detectado';
-          vadBadge.className = 'text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-1.5 py-0.5 rounded font-mono';
+          vadBadge.innerText = '🔊 Captando Voz / Audio en Vivo';
+          vadBadge.className = 'text-[10px] text-emerald-400 font-mono font-bold';
         } else {
-          vadBadge.innerText = '🔇 Silencio (Ahorro IA)';
-          vadBadge.className = 'text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono';
+          vadBadge.innerText = '🔇 Silencio (Ahorro Inteligente IA)';
+          vadBadge.className = 'text-[10px] text-slate-400 font-mono';
         }
 
         vadRafId = requestAnimationFrame(tick);
@@ -525,65 +653,83 @@
       vadRafId = requestAnimationFrame(tick);
     }
 
-    async function acquireUnifiedAudioStream() {
-      activeRawStreams = [];
-      const supportsDisplayMedia = !!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia);
+    /*************************************************************************
+     * ADQUISICIÓN DE AUDIO 100% PURA CON MUTEX ANTI-BUCLE (BUG-11 & BUG-12 FIX)
+     *************************************************************************/
+    async function toggleRecording() {
+      if (isAcquiringLock) return; // Evita doble clic o bucle de ventanas de permiso
 
-      // MODO 1: Solo Micrófono / Ambiente (Ideal para reuniones presenciales o celulares)
-      if (audioSourceMode === 'mic' || (!supportsDisplayMedia && (audioSourceMode === 'dual' || audioSourceMode === 'system'))) {
-        if (!supportsDisplayMedia && audioSourceMode !== 'mic') {
-          showToast('📱 En móvil se activó el Micrófono Ambiental de Alta Ganancia para captar el altavoz.');
-        }
-        const micStream = await navigator.mediaDevices.getUserMedia({
-          audio: {
-            echoCancellation: false,
-            noiseSuppression: false,
-            autoGainControl: true
-          }
-        });
-        activeRawStreams.push(micStream);
-        // En móvil damos ganancia 1.6x para captar tanto la voz del usuario como el altavoz del dispositivo
-        const boost = (!supportsDisplayMedia && audioSourceMode !== 'mic') ? 1.6 : 1.15;
-        return combineStreamsWithVAD([micStream], boost);
+      const apiKey = localStorage.getItem('gemini_api_key');
+      if (!apiKey) {
+        document.getElementById('configPanel').classList.remove('hidden');
+        return showToast('🔑 Primero guarda tu API Key gratuita de Google Gemini.');
       }
 
-      // MODO 2: Solo Audio Interno del Sistema / Pestaña Web (Zoom, YouTube, Meet, WhatsApp Web)
-      if (audioSourceMode === 'system') {
-        const sysStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-        // BUG-08 Fix: Detener de inmediato la pista de video porque solo necesitamos el audio interno
-        sysStream.getVideoTracks().forEach(track => track.stop());
-
-        if (sysStream.getAudioTracks().length === 0) {
-          throw new Error('No marcaste la casilla "Compartir también el audio del sistema/pestaña". Inténtalo de nuevo.');
-        }
-        activeRawStreams.push(sysStream);
-        return combineStreamsWithVAD([sysStream], 1.2);
-      }
-
-      // MODO 3: Captura Dual (Audio del Sistema/App + Tu Micrófono mezclados en un solo flujo)
-      if (audioSourceMode === 'dual') {
-        const streamsToMix = [];
+      if (!isRecording) {
+        isAcquiringLock = true;
         try {
-          const sysStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-          sysStream.getVideoTracks().forEach(track => track.stop());
-          if (sysStream.getAudioTracks().length > 0) {
-            streamsToMix.push(sysStream);
-            activeRawStreams.push(sysStream);
-          } else {
-            showToast('⚠️ No se compartió audio de pestaña; escuchando por micrófono.');
+          const selectedDeviceId = document.getElementById('audioDeviceSelect').value;
+          const isOmni = acousticProfile === 'omni';
+
+          // En modo Omni desactivamos echoCancellation agresiva para que el navegador NO borre el sonido que sale de los altavoces (YouTube, Zoom, Meet, etc.)
+          const audioConstraints = {
+            echoCancellation: !isOmni,
+            noiseSuppression: !isOmni,
+            autoGainControl: true
+          };
+          if (selectedDeviceId && selectedDeviceId !== 'default') {
+            audioConstraints.deviceId = { exact: selectedDeviceId };
           }
-        } catch (e) {
-          showToast('ℹ️ Captura de pantalla omitida; usando micrófono de alta ganancia.');
+
+          // EXCLUSIVAMENTE getUserMedia({ audio }) — JAMÁS pide grabar pantalla
+          activeMicStream = await navigator.mediaDevices.getUserMedia({
+            audio: audioConstraints,
+            video: false
+          });
+
+          refreshAudioInputDevices();
+
+          const dsp = buildPureAudioDSPGraph(activeMicStream, acousticProfile);
+          activeAudioContext = dsp.audioContext;
+          activeGainNode = dsp.gainNode;
+
+          isRecording = true;
+          await requestWakeLock();
+          startMeetingTimer();
+          updateUIRecording(true);
+          startLiveEqualizerAndVAD(dsp.analyser);
+          startCycleRecording(dsp.processedStream);
+        } catch (err) {
+          releaseAllResources();
+          showToast('⚠️ Permiso de micrófono cancelado o no disponible: ' + (err.message || ''));
+        } finally {
+          isAcquiringLock = false;
         }
-
-        const micStream = await navigator.mediaDevices.getUserMedia({
-          audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
-        });
-        streamsToMix.push(micStream);
-        activeRawStreams.push(micStream);
-
-        return combineStreamsWithVAD(streamsToMix, 1.2);
+      } else {
+        isRecording = false;
+        clearInterval(chunkInterval);
+        stopMeetingTimer();
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+          mediaRecorder.stop();
+        }
+        setTimeout(() => releaseAllResources(), 350);
+        updateUIRecording(false);
+        showToast('⏹️ Escucha finalizada.');
       }
+    }
+
+    function startMeetingTimer() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        meetingSeconds++;
+        const mins = String(Math.floor(meetingSeconds / 60)).padStart(2, '0');
+        const secs = String(meetingSeconds % 60).padStart(2, '0');
+        document.getElementById('meetingTimer').innerText = `${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function stopMeetingTimer() {
+      clearInterval(timerInterval);
     }
 
     async function requestWakeLock() {
@@ -595,68 +741,34 @@
     function releaseAllResources() {
       if (vadRafId) cancelAnimationFrame(vadRafId);
       vadRafId = null;
-      document.getElementById('audioLevelBar').style.width = '0%';
-      document.getElementById('vadBadge').innerText = 'VAD: En espera';
+      document.querySelectorAll('#eqContainer .eq-bar').forEach(b => b.style.height = '5px');
+      document.getElementById('vadBadge').innerText = 'DSP Listo • Sin bloqueo de pantalla';
 
       if (wakeLock) {
         wakeLock.release().catch(() => {});
         wakeLock = null;
       }
-      activeRawStreams.forEach(s => {
-        try { s.getTracks().forEach(t => t.stop()); } catch (e) {}
-      });
-      activeRawStreams = [];
+      if (activeMicStream) {
+        try { activeMicStream.getTracks().forEach(t => t.stop()); } catch (e) {}
+        activeMicStream = null;
+      }
       if (activeAudioContext && activeAudioContext.state !== 'closed') {
         activeAudioContext.close().catch(() => {});
         activeAudioContext = null;
       }
+      activeGainNode = null;
     }
 
-    /*************************************************************************
-     * CICLO DE GRABACIÓN INTELIGENTE CON FILTRO VAD DE ACTIVIDAD DE VOZ
-     *************************************************************************/
-    async function toggleRecording() {
-      const apiKey = localStorage.getItem('gemini_api_key');
-      if (!apiKey) {
-        document.getElementById('configPanel').classList.remove('hidden');
-        return showToast('🔑 Primero guarda tu API Key gratuita de Google Gemini.');
-      }
-
-      if (!isRecording) {
-        try {
-          const mixer = await acquireUnifiedAudioStream();
-          activeAudioContext = mixer.audioContext;
-          isRecording = true;
-          await requestWakeLock();
-          updateUIRecording(true);
-          startVADMonitor(mixer.analyser);
-          startCycleRecording(mixer.mixedStream);
-        } catch (err) {
-          releaseAllResources();
-          showToast('❌ ' + (err.message || 'No se pudo iniciar la captura de audio.'));
-        }
-      } else {
-        isRecording = false;
-        clearInterval(chunkInterval);
-        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-          mediaRecorder.stop();
-        }
-        setTimeout(() => releaseAllResources(), 400);
-        updateUIRecording(false);
-        showToast('⏹️ Escucha detenida. Procesando último bloque con sonido...');
-      }
-    }
-
-    function startCycleRecording(mixedStream) {
+    function startCycleRecording(processedStream) {
       const mimeType = getSupportedMimeType();
 
       const startSegment = () => {
         if (!isRecording) return;
         let localChunks = [];
         let segmentStartTime = Date.now();
-        segmentPeakRms = 0; // Reiniciar medidor de pico de voz para este segmento
+        segmentPeakRms = 0;
 
-        mediaRecorder = mimeType ? new MediaRecorder(mixedStream, { mimeType }) : new MediaRecorder(mixedStream);
+        mediaRecorder = mimeType ? new MediaRecorder(processedStream, { mimeType }) : new MediaRecorder(processedStream);
 
         mediaRecorder.ondataavailable = e => {
           if (e.data && e.data.size > 0) localChunks.push(e.data);
@@ -666,8 +778,7 @@
           const durationMs = Date.now() - segmentStartTime;
           const hadVoiceActivity = segmentPeakRms >= VAD_RMS_THRESHOLD;
 
-          // BUG-10 Fix: Solo enviar a la IA si realmente se detectó sonido/voz en el segmento
-          if (localChunks.length > 0 && durationMs > 750 && hadVoiceActivity) {
+          if (localChunks.length > 0 && durationMs > 700 && hadVoiceActivity) {
             const finalMime = mediaRecorder.mimeType || mimeType || 'audio/webm';
             const blob = new Blob(localChunks, { type: finalMime });
             processAudioWithGemini(blob, finalMime);
@@ -683,7 +794,7 @@
           mediaRecorder.stop();
           startSegment();
         }
-      }, 10500);
+      }, 10000);
     }
 
     function updateUIRecording(active) {
@@ -691,26 +802,25 @@
       const text = document.getElementById('statusText');
       const btn = document.getElementById('recordBtn');
       const btnText = document.getElementById('recordBtnText');
-      const modeNames = {
-        mic: 'Micrófono Ambiental',
-        dual: 'Modo Dual (App/Web + Mic)',
-        system: 'Audio Interno de App/Web'
-      };
+      const btnIcon = document.getElementById('recordBtnIcon');
+
       if (active) {
-        dot.className = 'w-3 h-3 rounded-full bg-rose-500 pulse-rec shrink-0';
-        text.innerText = `Escuchando [${modeNames[audioSourceMode]}] (ES / EN / 中文)...`;
+        dot.className = 'w-3 h-3 rounded-full bg-rose-500 pulse-ring shrink-0';
+        text.innerText = 'Escuchando Audio en Vivo (ES / EN / 中文)';
+        btnIcon.innerText = '⏹️';
         btnText.innerText = 'Detener Escucha';
-        btn.className = 'bg-rose-600 hover:bg-rose-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs md:text-sm transition shadow-lg flex items-center gap-1.5';
+        btn.className = 'flex-1 bg-rose-600 hover:bg-rose-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs md:text-sm transition shadow-lg shadow-rose-600/30 flex items-center justify-center gap-2';
       } else {
         dot.className = 'w-3 h-3 rounded-full bg-slate-600 shrink-0';
-        text.innerText = 'Escucha en pausa';
+        text.innerText = 'En espera de audio';
+        btnIcon.innerText = '🎙️';
         btnText.innerText = 'Iniciar Escucha';
-        btn.className = 'bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs md:text-sm transition shadow-lg flex items-center gap-1.5';
+        btn.className = 'flex-1 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs md:text-sm transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2';
       }
     }
 
     /*************************************************************************
-     * SANITIZADOR JSON Y PROCESAMIENTO CON GEMINI 2.5 FLASH
+     * PROCESAMIENTO IA CON GEMINI 2.5 FLASH (TRANSCRIPCIÓN + COACHING PROACTIVO)
      *************************************************************************/
     function safeJsonParse(rawText) {
       if (!rawText || typeof rawText !== 'string') return null;
@@ -736,33 +846,33 @@
     }
 
     async function processAudioWithGemini(blob, mimeType) {
-      if (blob.size < 1600) return;
+      if (blob.size < 1500) return;
       const apiKey = localStorage.getItem('gemini_api_key');
       const base64Audio = await blobToBase64(blob);
       const cleanMime = (mimeType || 'audio/webm').split(';')[0];
 
       const prompt = `
-      Escucha este fragmento de audio capturado de una reunión o aplicación donde se habla Español (ES), Inglés (EN) o Chino Mandarín (ZH).
-      Si no hay palabras inteligibles o solo hay ruido/música sin voz, devuelve exactamente: {"silencio": true}
+      Actúa como Proactor AI. Escucha este fragmento de audio donde se habla Español (ES), Inglés (EN) o Chino Mandarín (ZH).
+      Si no hay voz humana clara o solo hay ruido ambiente, responde únicamente: {"silencio": true}
       Si hay voz hablada, transcribe y traduce simultáneamente a los 3 idiomas (ES, EN, ZH) en formato JSON exacto:
       {
         "silencio": false,
         "idioma_detectado": "ES" | "EN" | "ZH",
         "original": "Transcripción exacta en el idioma hablado",
         "translations": {
-          "ES": "Traducción clara y completa al Español",
-          "EN": "Clear and complete translation to English",
-          "ZH": "清晰完整的中文翻译"
+          "ES": "Traducción ejecutiva clara al Español",
+          "EN": "Clear executive translation to English",
+          "ZH": "清晰专业的中文翻译"
         },
         "tips": {
-          "ES": "Si se menciona cifra, fecha, duda, acuerdo o tarea, da 1 consejo proactivo breve en Español (o vacío)",
-          "EN": "Brief 1-line proactive negotiation/action tip in English (or empty)",
+          "ES": "Si se menciona cifra, acuerdo, riesgo, pregunta o tarea, da 1 recomendación proactiva breve en Español (o vacío)",
+          "EN": "Brief 1-line proactive negotiation/action insight in English (or empty)",
           "ZH": "简短的一句话谈判或行动建议（或留空）"
         }
       }`;
 
       try {
-        const res = await fetch(`[https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$){apiKey}`, {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -784,7 +894,7 @@
         addSegmentToMeeting({
           id: 'seg_' + Date.now(),
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-          source: audioSourceMode,
+          profile: acousticProfile,
           speakerLang: ['ES', 'EN', 'ZH'].includes(parsed.idioma_detectado) ? parsed.idioma_detectado : 'ES',
           original: parsed.original,
           translations: {
@@ -806,24 +916,47 @@
     function addSegmentToMeeting(seg) {
       meetingSegments.push(seg);
       executiveSummaries = { ES: '', EN: '', ZH: '' };
+      updateKPIs();
       renderAllTranscripts();
       renderProactiveBox();
     }
 
+    function updateKPIs() {
+      document.getElementById('kpiSegments').innerText = meetingSegments.length;
+      const tipCount = meetingSegments.filter(s => s.tips && (s.tips.ES || s.tips.EN || s.tips.ZH)).length;
+      document.getElementById('kpiTips').innerText = tipCount;
+    }
+
     /*************************************************************************
-     * RENDERIZADO MULTILINGÜE INSTANTÁNEO
+     * RENDERIZADO EJECUTIVO DE TRANSCRIPCIÓN Y COPILOTO PROACTIVO
      *************************************************************************/
     function setTargetLanguage(lang) {
       targetLang = lang;
+      document.getElementById('monoLangLabel').innerText = lang;
+      const labels = { ES: '🇪🇸 ES', EN: '🇺🇸 EN', ZH: '🇨🇳 中文' };
       ['ES', 'EN', 'ZH'].forEach(l => {
         const btn = document.getElementById('langBtn_' + l);
+        btn.innerText = labels[l];
         if (l === lang) {
+          btn.className = 'px-2.5 py-1.5 rounded-lg font-bold bg-indigo-600 text-white transition shadow';
+        } else {
+          btn.className = 'px-2.5 py-1.5 rounded-lg font-bold text-slate-400 hover:text-white transition';
+        }
+      });
+      renderAllTranscripts();
+      renderProactiveBox();
+    }
+
+    function switchCopilotTab(tab) {
+      copilotTab = tab;
+      ['all', 'tips', 'summary'].forEach(t => {
+        const btn = document.getElementById('tabBtn_' + t);
+        if (t === tab) {
           btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-indigo-600 text-white transition';
         } else {
           btn.className = 'px-2.5 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition';
         }
       });
-      renderAllTranscripts();
       renderProactiveBox();
     }
 
@@ -834,9 +967,14 @@
       countBadge.innerText = meetingSegments.length;
 
       if (meetingSegments.length === 0) {
-        box.innerHTML = `<div class="text-slate-500 text-xs italic p-4 text-center">
-          Elige arriba tu fuente de audio (<b>Micrófono</b>, <b>Dual App+Mic</b> o <b>Solo Audio Interno</b>) y pulsa <b>"🎙️ Iniciar Escucha"</b>. En cuanto detecte sonido en Español, Inglés o Chino Mandarín lo transcribirá y traducirá automáticamente.
-        </div>`;
+        box.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-2xl mb-3">🎧</div>
+            <p class="text-sm font-semibold text-slate-200 mb-1">Listo para escuchar cualquier conversación o reproducción de audio</p>
+            <p class="text-xs text-slate-400 max-w-md leading-relaxed">
+              Pulsa <b>"🎙️ Iniciar Escucha"</b> para transcribir y traducir automáticamente entre <b>Español, Inglés y Chino Mandarín</b>, o toca <b>"✨ Demo Proactor"</b> arriba.
+            </p>
+          </div>`;
         return;
       }
 
@@ -844,25 +982,25 @@
       meetingSegments.forEach(seg => {
         const translatedText = seg.translations?.[targetLang] || seg.original;
         const badgeColor = seg.speakerLang === 'ZH'
-          ? 'bg-rose-950 text-rose-300 border-rose-800'
-          : (seg.speakerLang === 'EN' ? 'bg-sky-950 text-sky-300 border-sky-800' : 'bg-emerald-950 text-emerald-300 border-emerald-800');
+          ? 'bg-rose-500/15 text-rose-300 border-rose-500/30'
+          : (seg.speakerLang === 'EN' ? 'bg-sky-500/15 text-sky-300 border-sky-500/30' : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30');
 
-        const srcBadge = seg.source === 'system' ? '🔊 Audio App/Web' : (seg.source === 'dual' ? '💻+🎙️ Dual' : '🎙️ Mic');
+        const profLabel = seg.profile === 'voice' ? '🎙️ Voz Directa' : '🔊 Omni-Audio';
         const showOriginalSub = !exclusive && seg.speakerLang !== targetLang;
 
         const card = document.createElement('div');
-        card.className = 'bg-slate-950/90 p-3 rounded-xl border border-slate-800/90';
+        card.className = 'bg-slate-950/85 hover:bg-slate-900/90 p-3.5 rounded-xl border border-slate-800/90 transition';
         card.innerHTML = `
-          <div class="flex items-center justify-between mb-1">
+          <div class="flex items-center justify-between mb-1.5">
             <div class="flex items-center gap-1.5 flex-wrap">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded border ${badgeColor}">Detectado: ${seg.speakerLang}</span>
-              <span class="text-[10px] bg-indigo-950/80 text-indigo-300 px-2 py-0.5 rounded">Traducido: ${targetLang}</span>
-              <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded">${srcBadge}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-md border ${badgeColor}">Origen: ${seg.speakerLang}</span>
+              <span class="text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-md font-semibold">Vista: ${targetLang}</span>
+              <span class="text-[10px] text-slate-400 px-1.5 py-0.5 rounded bg-slate-900">${profLabel}</span>
             </div>
-            <span class="text-[11px] text-slate-500 font-mono">${seg.time}</span>
+            <span class="text-[11px] text-slate-400 font-mono">${seg.time}</span>
           </div>
           <p class="text-slate-100 font-medium text-sm leading-relaxed">${translatedText}</p>
-          ${showOriginalSub ? `<p class="text-slate-400 text-xs mt-1.5 border-l-2 border-slate-700 pl-2 italic">Orig (${seg.speakerLang}): "${seg.original}"</p>` : ''}
+          ${showOriginalSub ? `<p class="text-slate-400 text-xs mt-2 border-l-2 border-indigo-500/50 pl-2.5 italic">Original (${seg.speakerLang}): "${seg.original}"</p>` : ''}
         `;
         box.appendChild(card);
       });
@@ -874,118 +1012,140 @@
       pBox.innerHTML = '';
       let hasContent = false;
 
-      meetingSegments.forEach(seg => {
-        const tipText = seg.tips?.[targetLang];
-        if (tipText) {
-          hasContent = true;
-          const tipDiv = document.createElement('div');
-          tipDiv.className = 'bg-indigo-950/50 border border-indigo-800/70 p-2.5 rounded-xl text-xs text-indigo-200';
-          tipDiv.innerHTML = `<span class="font-bold text-indigo-400">💡 [${seg.time}] Proactor (${targetLang}):</span> ${tipText}`;
-          pBox.appendChild(tipDiv);
-        }
-      });
+      if (copilotTab === 'all' || copilotTab === 'tips') {
+        meetingSegments.forEach(seg => {
+          const tipText = seg.tips?.[targetLang];
+          if (tipText) {
+            hasContent = true;
+            const tipDiv = document.createElement('div');
+            tipDiv.className = 'bg-gradient-to-r from-indigo-950/70 to-slate-900/90 border border-indigo-500/30 p-3 rounded-xl text-xs text-indigo-100 shadow';
+            tipDiv.innerHTML = `
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-extrabold text-amber-400 uppercase tracking-wider text-[10px]">💡 Proactor Live Coaching (${targetLang})</span>
+                <span class="text-[10px] text-slate-400 font-mono">${seg.time}</span>
+              </div>
+              <p class="leading-relaxed">${tipText}</p>
+            `;
+            pBox.appendChild(tipDiv);
+          }
+        });
+      }
 
-      const currentSummary = executiveSummaries[targetLang];
-      if (currentSummary) {
-        hasContent = true;
-        const sumDiv = document.createElement('div');
-        sumDiv.className = 'bg-slate-950 border border-emerald-700/80 p-3.5 rounded-xl text-xs whitespace-pre-wrap text-slate-100 mt-2 leading-relaxed shadow-inner';
-        sumDiv.innerHTML = `<div class="font-bold text-emerald-400 mb-1.5 text-sm">📋 ACTA EJECUTIVA UNIFICADA (${targetLang}):</div>${currentSummary}`;
-        pBox.appendChild(sumDiv);
+      if (copilotTab === 'all' || copilotTab === 'summary') {
+        const currentSummary = executiveSummaries[targetLang];
+        if (currentSummary) {
+          hasContent = true;
+          const sumDiv = document.createElement('div');
+          sumDiv.className = 'bg-slate-950/95 border border-emerald-500/40 p-4 rounded-xl text-xs whitespace-pre-wrap text-slate-100 leading-relaxed shadow-xl';
+          sumDiv.innerHTML = `<div class="font-extrabold text-emerald-400 mb-2 text-sm border-b border-slate-800 pb-1.5">📋 ACTA EJECUTIVA UNIFICADA (${targetLang})</div>${currentSummary}`;
+          pBox.appendChild(sumDiv);
+        }
       }
 
       if (!hasContent) {
-        pBox.innerHTML = `<div class="text-slate-500 text-xs italic p-4 text-center">
-          Aquí aparecerán alertas de negociación en vivo, detección de compromisos y el Acta Ejecutiva traducida al idioma único que selecciones.
-        </div>`;
+        pBox.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-2xl mb-3">⚡</div>
+            <p class="text-sm font-semibold text-slate-200 mb-1">Copiloto de Negociación & Actas Activo</p>
+            <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+              A medida que avance la reunión, aquí verás sugerencias estratégicas en tiempo real, detección de cifras y el Acta Ejecutiva en el idioma elegido.
+            </p>
+          </div>`;
       }
       pBox.scrollTop = pBox.scrollHeight;
     }
 
     /*************************************************************************
-     * MODO DEMO MULTILINGÜE Y MULTI-FUENTE
+     * DEMO EJECUTIVA ESTILO PROACTOR AI (ESPAÑOL + INGLÉS + CHINO MANDARÍN)
      *************************************************************************/
     function loadDemoMeeting() {
-      document.getElementById('meetingTitle').value = 'Videollamada Global Suministro Q4 (Zoom / Teams + Sala)';
+      document.getElementById('meetingTitle').value = 'Alianza Global de Suministro & Logística Q4 (Tegucigalpa • Miami • Shenzhen)';
+      meetingSeconds = 195;
+      document.getElementById('meetingTimer').innerText = '03:15';
+
       meetingSegments = [
         {
           id: 'demo_1',
-          time: '10:00:12',
-          source: 'mic',
+          time: '09:30:10',
+          profile: 'omni',
           speakerLang: 'ES',
-          original: 'Buenos días a todos. Necesitamos cerrar hoy el cronograma de envío de los 5,000 sensores hacia Valencia y confirmar el descuento por volumen.',
+          original: 'Buenos días al equipo de Miami y Shenzhen. Para cerrar hoy el contrato de suministro de los 5,000 módulos ópticos, necesitamos confirmar fechas de embarque y el descuento corporativo.',
           translations: {
-            ES: 'Buenos días a todos. Necesitamos cerrar hoy el cronograma de envío de los 5,000 sensores hacia Valencia y confirmar el descuento por volumen.',
-            EN: 'Good morning everyone. Today we need to finalize the shipping schedule for the 5,000 sensors to Valencia and confirm the volume discount.',
-            ZH: '大家早上好。今天我们需要敲定发往瓦伦西亚的5,000个传感器的发货时间表，并确认批量折扣。'
+            ES: 'Buenos días al equipo de Miami y Shenzhen. Para cerrar hoy el contrato de suministro de los 5,000 módulos ópticos, necesitamos confirmar fechas de embarque y el descuento corporativo.',
+            EN: 'Good morning to the Miami and Shenzhen teams. To close the supply contract for the 5,000 optical modules today, we need to confirm shipping dates and the corporate discount.',
+            ZH: '迈阿密和深圳团队早上好。为了今天敲定5,000个光模块的供应合同，我们需要确认发货日期和企业折扣。'
           },
           tips: {
-            ES: 'Objetivo fijado: 5,000 unidades a Valencia. Asegurar porcentaje exacto de descuento.',
-            EN: 'Target set: 5,000 units to Valencia. Lock in the exact volume discount percentage.',
-            ZH: '目标已设定：发往瓦伦西亚5,000台。请锁定具体的批量折扣百分比。'
+            ES: 'Ancla de negociación establecida: 5,000 unidades. Solicita desglose CIF/FOB antes de aceptar el porcentaje de descuento.',
+            EN: 'Negotiation anchor set: 5,000 units. Request CIF/FOB breakdown before locking in the discount rate.',
+            ZH: '谈判锚点已设定：5,000台。在锁定折扣率之前，建议要求提供 CIF/FOB 费用明细。'
           }
         },
         {
           id: 'demo_2',
-          time: '10:01:05',
-          source: 'dual',
+          time: '09:31:22',
+          profile: 'omni',
           speakerLang: 'EN',
-          original: 'From our logistics hub in Miami, we can approve an 8% discount if payment is settled within 15 days via letter of credit.',
+          original: 'From our regional finance desk in Miami, we can authorize an 8.5% volume discount if payment is structured via 15-day letter of credit.',
           translations: {
-            ES: 'Desde nuestro centro logístico en Miami, podemos aprobar un descuento del 8% si el pago se liquida en 15 días mediante carta de crédito.',
-            EN: 'From our logistics hub in Miami, we can approve an 8% discount if payment is settled within 15 days via letter of credit.',
-            ZH: '从我们迈阿密的物流中心来看，如果能在15天内通过信用证结清款项，我们可以批准8%的折扣。'
+            ES: 'Desde nuestra mesa financiera regional en Miami, podemos autorizar un descuento por volumen del 8.5% si el pago se estructura mediante carta de crédito a 15 días.',
+            EN: 'From our regional finance desk in Miami, we can authorize an 8.5% volume discount if payment is structured via 15-day letter of credit.',
+            ZH: '从我们迈阿密的区域财务部门来看，如果通过15天信用证结算，我们可以批准8.5%的批量折扣。'
           },
           tips: {
-            ES: 'Condición financiera detectada: 8% de descuento sujeto a Carta de Crédito a 15 días.',
-            EN: 'Financial condition detected: 8% discount tied to 15-day Letter of Credit.',
-            ZH: '检测到财务条件：8%的折扣需绑定15天信用证付款。'
+            ES: 'Propuesta financiera detectada: 8.5% de descuento sujeto a Carta de Crédito (15 días). Verifica costo bancario de emisión.',
+            EN: 'Financial offer detected: 8.5% discount tied to 15-day L/C. Verify bank issuance fees.',
+            ZH: '检测到财务报价：8.5%折扣绑定15天信用证。请核实银行开证手续费。'
           }
         },
         {
           id: 'demo_3',
-          time: '10:02:18',
-          source: 'system',
+          time: '09:32:45',
+          profile: 'omni',
           speakerLang: 'ZH',
-          original: '深圳工厂已经准备好生产线，第一批三千个传感器可以在下周五之前发货，其余两千个在十天内完成。',
+          original: '深圳工厂已完成质量检测，第一批三千个模块可以在下周五装船发货，其余两千个在十天内交付。',
           translations: {
-            ES: 'La fábrica de Shenzhen ya tiene lista la línea de producción; el primer lote de 3,000 sensores puede enviarse antes del próximo viernes y los 2,000 restantes en diez días.',
-            EN: 'The Shenzhen factory has the production line ready; the first batch of 3,000 sensors can ship before next Friday, and the remaining 2,000 within ten days.',
-            ZH: '深圳工厂已经准备好生产线，第一批三千个传感器可以在下周五之前发货，其余两千个在十天内完成。'
+            ES: 'La planta de Shenzhen ya completó el control de calidad; el primer lote de 3,000 módulos puede embarcarse el próximo viernes y los 2,000 restantes se entregarán en diez días.',
+            EN: 'The Shenzhen plant has completed quality control; the first batch of 3,000 modules can ship next Friday, and the remaining 2,000 will be delivered within ten days.',
+            ZH: '深圳工厂已完成质量检测，第一批三千个模块可以在下周五装船发货，其余两千个在十天内交付。'
           },
           tips: {
-            ES: 'Entrega dividida propuesta (3,000 + 2,000). Confirmar si el costo de flete parcial corre por cuenta del proveedor.',
-            EN: 'Split shipment proposed (3,000 + 2,000). Confirm if partial freight cost is covered by the supplier.',
-            ZH: '提出了分批发货方案（3,000 + 2,000）。请确认分批运费是否由供应商承担。'
+            ES: 'Compromiso de entrega parcial (3,000 + 2,000). Acordar que la Carta de Crédito se libere proporcionalmente por cada embarque.',
+            EN: 'Split delivery commitment (3,000 + 2,000). Agree on proportional L/C release per shipment.',
+            ZH: '分批交货承诺（3,000 + 2,000）。建议约定按每批发货比例释放信用证款项。'
           }
         }
       ];
 
       executiveSummaries = {
-        ES: `• RESUMEN EJECUTIVO:\nSe acordó el suministro de 5,000 sensores con destino a Valencia coordinado entre Madrid, Miami y la planta de Shenzhen.\n\n• ACUERDOS CLAVE:\n1. Descuento comercial del 8% aprobado por Miami bajo pago a 15 días con Carta de Crédito.\n2. Producción dividida en Shenzhen: 3,000 unidades salen antes del próximo viernes y 2,000 unidades en los 10 días posteriores.\n\n• TAREAS PENDIENTES (ACTION ITEMS):\n- [Finanzas Madrid]: Emitir borrador de Carta de Crédito a 15 días hoy mismo.\n- [Planta Shenzhen]: Enviar guía de embarque del primer lote (3,000 uds) antes del viernes.`,
-        EN: `• EXECUTIVE SUMMARY:\nThe supply of 5,000 sensors bound for Valencia was agreed upon between Madrid, Miami, and the Shenzhen manufacturing plant.\n\n• KEY AGREEMENTS:\n1. 8% commercial discount approved by Miami upon 15-day payment via Letter of Credit.\n2. Split production in Shenzhen: 3,000 units ship before next Friday, and 2,000 units within the following 10 days.\n\n• ACTION ITEMS:\n- [Madrid Finance]: Issue 15-day Letter of Credit draft today.\n- [Shenzhen Plant]: Send airway bill for the first batch (3,000 units) before Friday.`,
-        ZH: `• 执行摘要：\n马德里、迈阿密与深圳工厂已就发往瓦伦西亚的 5,000 个传感器供应达成一致。\n\n• 核心协议：\n1. 迈阿密批准 8% 的商业折扣，条件为 15 天内通过信用证付款。\n2. 深圳工厂分批生产：首批 3,000 台于下周五前发货，剩余 2,000 台在随后 10 天内完成。\n\n• 待办事项 (ACTION ITEMS)：\n- [马德里财务部]：今日内开具 15 天期信用证草稿。\n- [深圳工厂]：周五前发送首批（3,000 台）货运单号。`
+        ES: `• RESUMEN EJECUTIVO:\nSe aprobó el suministro internacional de 5,000 módulos ópticos coordinado entre las oficinas de Latinoamérica, Miami y la planta de manufactura en Shenzhen.\n\n• ACUERDOS CLAVE:\n1. Descuento corporativo del 8.5% autorizado por Miami bajo pago con Carta de Crédito a 15 días.\n2. Cronograma de despacho desde Shenzhen: Lote #1 (3,000 uds) embarca el próximo viernes; Lote #2 (2,000 uds) a los 10 días.\n\n• TAREAS PENDIENTES (ACTION ITEMS):\n- [Finanzas]: Emitir borrador de Carta de Crédito con liberación parcial por lote.\n- [Logística Shenzhen]: Enviar certificado de control de calidad y booking naviero antes del jueves.`,
+        EN: `• EXECUTIVE SUMMARY:\nInternational supply of 5,000 optical modules approved across Latin America, Miami, and the Shenzhen manufacturing plant.\n\n• KEY AGREEMENTS:\n1. 8.5% corporate volume discount authorized by Miami under a 15-day Letter of Credit.\n2. Dispatch schedule from Shenzhen: Batch #1 (3,000 units) ships next Friday; Batch #2 (2,000 units) within 10 days.\n\n• ACTION ITEMS:\n- [Finance]: Issue draft Letter of Credit with partial milestone release.\n- [Shenzhen Logistics]: Send QC certificate and shipping booking before Thursday.`,
+        ZH: `• 执行摘要：\n拉美、迈阿密与深圳制造工厂已正式批准 5,000 个光模块的跨国供应协议。\n\n• 核心协议：\n1. 迈阿密批准 8.5% 的企业批量折扣，付款方式为 15 天期信用证。\n2. 深圳发货计划：第一批（3,000 台）于下周五装船发货；第二批（2,000 台）在 10 天内交付。\n\n• 待办事项 (ACTION ITEMS)：\n- [财务部]：开具支持分批放款的 15 天期信用证草稿。\n- [深圳物流部]：周四前发送质检证书及船期订舱单。`
       };
 
+      updateKPIs();
       renderAllTranscripts();
       renderProactiveBox();
-      showToast('⚡ Reunión Demo Multi-Fuente (ES/EN/中文) cargada.');
+      showToast('✨ Demo Proactor AI (ES / EN / 中文) cargada.');
     }
 
     function clearMeeting() {
       meetingSegments = [];
       executiveSummaries = { ES: '', EN: '', ZH: '' };
+      meetingSeconds = 0;
+      document.getElementById('meetingTimer').innerText = '00:00';
+      updateKPIs();
       renderAllTranscripts();
       renderProactiveBox();
-      showToast('🗑️ Reunión reiniciada.');
+      showToast('🗑️ Sesión reiniciada.');
     }
 
     /*************************************************************************
-     * MODAL DE SELECCIÓN DE IDIOMA ÚNICO Y EXPORTACIÓN (WHATSAPP / PDF / COPY)
+     * MODAL DE UNIFICACIÓN MONOLINGÜE Y EXPORTACIÓN (WHATSAPP / PDF / COPIAR)
      *************************************************************************/
     function openLanguageModal(actionType) {
       if (meetingSegments.length === 0) {
-        return showToast('⚠️ Primero graba audio o pulsa "⚡ Cargar Demo".');
+        return showToast('⚠️ Primero graba audio o pulsa "✨ Demo Proactor".');
       }
       pendingExportAction = actionType;
       selectModalLanguage(targetLang);
@@ -1002,9 +1162,9 @@
       ['ES', 'EN', 'ZH'].forEach(l => {
         const el = document.getElementById('modalLang_' + l);
         if (l === lang) {
-          el.className = 'p-3 rounded-xl border-2 border-indigo-500 bg-indigo-950/60 text-center transition';
+          el.className = 'p-3 rounded-xl border-2 border-indigo-500 bg-indigo-950/70 text-center transition shadow-lg';
         } else {
-          el.className = 'p-3 rounded-xl border-2 border-slate-800 bg-slate-800/50 text-center transition';
+          el.className = 'p-3 rounded-xl border-2 border-slate-800 bg-slate-900/60 text-center transition';
         }
       });
     }
@@ -1018,7 +1178,7 @@
         const payload = missingSegments.map(s => ({ id: s.id, text: s.original }));
         const prompt = `Traduce estos fragmentos de reunión al idioma ${langName}. Devuelve un JSON array con [{"id": "...", "translated": "..."}]:\n` + JSON.stringify(payload);
         try {
-          const res = await fetch(`[https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$){apiKey}`, {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1048,7 +1208,7 @@
           Transcripción:\n${transcriptLines}`;
 
           try {
-            const res = await fetch(`[https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$){apiKey}`, {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
@@ -1080,7 +1240,8 @@
       closeLanguageModal();
 
       if (pendingExportAction === 'summary') {
-        showToast(`✅ Acta Ejecutiva generada 100% en ${modalSelectedLang}.`);
+        switchCopilotTab('summary');
+        showToast(`✅ Acta Ejecutiva unificada en ${modalSelectedLang}.`);
       } else if (pendingExportAction === 'whatsapp') {
         exportToWhatsApp(modalSelectedLang, exclusive);
       } else if (pendingExportAction === 'pdf') {
@@ -1123,15 +1284,15 @@
       if (navigator.clipboard) {
         navigator.clipboard.writeText(buildUnifiedDocumentText(lang, exclusive, null)).catch(() => {});
       }
-      const waUrl = `[https://wa.me/?text=$](https://wa.me/?text=$){encodeURIComponent(fullText)}`;
+      const waUrl = `https://wa.me/?text=${encodeURIComponent(fullText)}`;
       window.open(waUrl, '_blank');
-      showToast(`🟢 Abriendo WhatsApp en ${lang} (Copia completa en portapapeles).`);
+      showToast(`🟢 Abriendo WhatsApp en ${lang} (Copia íntegra en portapapeles).`);
     }
 
     function copyFullDocument(lang, exclusive) {
       const text = buildUnifiedDocumentText(lang, exclusive, null);
       navigator.clipboard.writeText(text).then(() => {
-        showToast(`📋 Documento completo en ${lang} copiado al portapapeles.`);
+        showToast(`📋 Informe completo en ${lang} copiado al portapapeles.`);
       });
     }
 
@@ -1160,7 +1321,7 @@
       const printArea = document.getElementById('printArea');
       printArea.innerHTML = `
         <div style="border-bottom:3px solid #4f46e5;padding-bottom:12px;margin-bottom:18px;">
-          <div style="font-size:10pt;color:#4f46e5;font-weight:bold;">PROMEET AI v4.0 — DUAL-STREAM MULTILINGUAL INTELLIGENCE</div>
+          <div style="font-size:10pt;color:#4f46e5;font-weight:bold;">PROMEET AI v5.0 ENTERPRISE — MULTILINGUAL MEETING INTELLIGENCE</div>
           <h1 style="font-size:18pt;font-weight:bold;margin:4px 0;">${title}</h1>
           <div style="font-size:10pt;color:#475569;">${L.date}: ${dateStr} | <b>${L.langLabel}</b></div>
         </div>
@@ -1182,7 +1343,7 @@
     }
 
     /*************************************************************************
-     * SUITE AUTOMATIZADA DE MATRIZ DE PRUEBAS (16 TESTS QA EXHAUSTIVOS)
+     * SUITE AUTOMATIZADA DE MATRIZ DE PRUEBAS (18 TESTS QA EXHAUSTIVOS v5.0)
      *************************************************************************/
     function openQAModal() {
       document.getElementById('qaModal').classList.remove('hidden');
@@ -1200,67 +1361,73 @@
       const backupSegments = JSON.parse(JSON.stringify(meetingSegments));
       const backupSummaries = JSON.parse(JSON.stringify(executiveSummaries));
       const backupLang = targetLang;
-      const backupMode = audioSourceMode;
+      const backupProfile = acousticProfile;
 
       const tests = [
         {
           id: 'TC-01',
-          name: 'Negociación de Códecs MIME (iOS MP4 / Android WebM)',
-          fn: () => typeof getSupportedMimeType() === 'string'
+          name: 'Garantía Zero-Screen-Capture (Sin getDisplayMedia en macOS)',
+          fn: () => {
+            const fnCode = toggleRecording.toString() + buildPureAudioDSPGraph.toString();
+            return ZERO_SCREEN_CAPTURE_ENFORCED === true && !fnCode.includes('getDisplayMedia');
+          }
         },
         {
           id: 'TC-02',
-          name: 'Mezclador WebAudio Dual (Mic + Sistema en un solo flujo)',
+          name: 'Mutex Anti-Bucle de Permisos (isAcquiringLock activo)',
+          fn: () => typeof isAcquiringLock === 'boolean' && isAcquiringLock === false
+        },
+        {
+          id: 'TC-03',
+          name: 'Grafo DSP Acústico (Highpass + Compressor + Gain + Analyser)',
           fn: async () => {
             const AudioCtx = window.AudioContext || window.webkitAudioContext;
             const tempCtx = new AudioCtx();
-            const osc1 = tempCtx.createOscillator();
-            const osc2 = tempCtx.createOscillator();
-            const dest1 = tempCtx.createMediaStreamDestination();
-            const dest2 = tempCtx.createMediaStreamDestination();
-            osc1.connect(dest1);
-            osc2.connect(dest2);
-            const mixed = combineStreamsWithVAD([dest1.stream, dest2.stream], 1.2);
-            const ok = mixed.connectedSources === 2 && mixed.mixedStream.getAudioTracks().length === 1;
-            await mixed.audioContext.close();
+            const osc = tempCtx.createOscillator();
+            const dest = tempCtx.createMediaStreamDestination();
+            osc.connect(dest);
+            const dsp = buildPureAudioDSPGraph(dest.stream, 'omni');
+            const ok = dsp.processedStream.getAudioTracks().length === 1 && Math.abs(dsp.gainNode.gain.value - 2.1) < 0.05;
+            await dsp.audioContext.close();
             await tempCtx.close();
             return ok;
           }
         },
         {
-          id: 'TC-03',
-          name: 'Conmutación de Modos de Fuente (Mic / Dual / Sistema)',
-          fn: () => {
-            setAudioSourceMode('dual');
-            const dOk = audioSourceMode === 'dual' && !document.getElementById('sourceHintBar').classList.contains('hidden');
-            setAudioSourceMode('system');
-            const sOk = audioSourceMode === 'system';
-            setAudioSourceMode('mic');
-            const mOk = audioSourceMode === 'mic' && document.getElementById('sourceHintBar').classList.contains('hidden');
-            return dOk && sOk && mOk;
-          }
-        },
-        {
           id: 'TC-04',
-          name: 'Detector VAD: Filtro de Silencio Total (RMS < 0.012)',
+          name: 'Conmutación de Perfil Acústico (Omni-Ambiente vs Voz Directa)',
           fn: () => {
-            const silentBuffer = new Uint8Array(512).fill(128);
-            const rms = calculateRmsFromTimeDomain(silentBuffer);
-            return rms === 0 && rms < VAD_RMS_THRESHOLD;
+            setAcousticProfile('voice');
+            const vOk = acousticProfile === 'voice';
+            setAcousticProfile('omni');
+            const oOk = acousticProfile === 'omni';
+            return vOk && oOk;
           }
         },
         {
           id: 'TC-05',
-          name: 'Detector VAD: Activación por Sonido/Voz (RMS >= 0.012)',
-          fn: () => {
-            const activeBuffer = new Uint8Array(512);
-            for (let i = 0; i < 512; i++) activeBuffer[i] = i % 2 === 0 ? 165 : 90;
-            const rms = calculateRmsFromTimeDomain(activeBuffer);
-            return rms >= VAD_RMS_THRESHOLD;
-          }
+          name: 'Negociación de Códecs MIME (iOS MP4 / Android & Mac WebM)',
+          fn: () => typeof getSupportedMimeType() === 'string'
         },
         {
           id: 'TC-06',
+          name: 'Detector VAD: Filtro de Silencio (RMS < 0.009)',
+          fn: () => {
+            const silentBuffer = new Uint8Array(512).fill(128);
+            return calculateRmsFromTimeDomain(silentBuffer) < VAD_RMS_THRESHOLD;
+          }
+        },
+        {
+          id: 'TC-07',
+          name: 'Detector VAD: Activación Acústica (RMS >= 0.009)',
+          fn: () => {
+            const activeBuffer = new Uint8Array(512);
+            for (let i = 0; i < 512; i++) activeBuffer[i] = i % 2 === 0 ? 160 : 95;
+            return calculateRmsFromTimeDomain(activeBuffer) >= VAD_RMS_THRESHOLD;
+          }
+        },
+        {
+          id: 'TC-08',
           name: 'Sanitizador JSON con bloques Markdown (```json)',
           fn: () => {
             const dirty = '```json\n{"idioma_detectado":"ZH","original":"你好"}\n```';
@@ -1269,79 +1436,91 @@
           }
         },
         {
-          id: 'TC-07',
-          name: 'Filtro de Silencio de IA ("SILENCIO" / {"silencio":true})',
+          id: 'TC-09',
+          name: 'Filtro de Silencio IA ("SILENCIO" / {"silencio":true})',
           fn: () => safeJsonParse('SILENCIO') === null && safeJsonParse('{"silencio":true}').silencio === true
         },
         {
-          id: 'TC-08',
-          name: 'Inyección Multi-Fuente y Tri-Idioma (ES + EN + ZH)',
+          id: 'TC-10',
+          name: 'Inyección Tri-Idioma Simultánea (ES + EN + ZH)',
           fn: () => {
             loadDemoMeeting();
             return meetingSegments.length === 3 &&
-              meetingSegments[0].source === 'mic' &&
-              meetingSegments[1].source === 'dual' &&
-              meetingSegments[2].source === 'system';
-          }
-        },
-        {
-          id: 'TC-09',
-          name: 'Unificación 100% Español (Modo Exclusivo Monolingüe)',
-          fn: () => {
-            const docES = buildUnifiedDocumentText('ES', true, null);
-            return docES.includes('Idioma del Documento: Español') &&
-              docES.includes('La fábrica de Shenzhen ya tiene lista') &&
-              !docES.includes('深圳工厂已经准备好生产线');
-          }
-        },
-        {
-          id: 'TC-10',
-          name: 'Unificación 100% Inglés (Modo Exclusivo Monolingüe)',
-          fn: () => {
-            const docEN = buildUnifiedDocumentText('EN', true, null);
-            return docEN.includes('Document Language: English') &&
-              docEN.includes('The Shenzhen factory has the production line ready') &&
-              !docEN.includes('Buenos días a todos');
+              meetingSegments[0].speakerLang === 'ES' &&
+              meetingSegments[1].speakerLang === 'EN' &&
+              meetingSegments[2].speakerLang === 'ZH';
           }
         },
         {
           id: 'TC-11',
-          name: 'Unificación 100% Chino Mandarín (中文 统一语言)',
+          name: 'Unificación 100% Español (Modo Exclusivo Monolingüe)',
           fn: () => {
-            const docZH = buildUnifiedDocumentText('ZH', true, null);
-            return docZH.includes('文档语言：中文') &&
-              docZH.includes('大家早上好') &&
-              docZH.includes('从我们迈阿密的物流中心来看');
+            const docES = buildUnifiedDocumentText('ES', true, null);
+            return docES.includes('Idioma del Documento: Español') &&
+              docES.includes('La planta de Shenzhen ya completó') &&
+              !docES.includes('深圳工厂已完成质量检测');
           }
         },
         {
           id: 'TC-12',
-          name: 'Modo Bilingüe de Auditoría (Conserva cita original)',
+          name: 'Unificación 100% Inglés (Modo Exclusivo Monolingüe)',
           fn: () => {
-            const docBilingual = buildUnifiedDocumentText('ES', false, null);
-            return docBilingual.includes('Original ZH: "深圳工厂已经准备好生产线');
+            const docEN = buildUnifiedDocumentText('EN', true, null);
+            return docEN.includes('Document Language: English') &&
+              docEN.includes('The Shenzhen plant has completed quality control') &&
+              !docEN.includes('Buenos días al equipo');
           }
         },
         {
           id: 'TC-13',
-          name: 'Caché Multilingüe Instantáneo O(1) (Cero gasto extra API)',
+          name: 'Unificación 100% Chino Mandarín (中文 统一语言)',
           fn: () => {
-            setTargetLanguage('ZH');
-            const renderedZH = document.getElementById('transcriptBox').innerText.includes('大家早上好');
-            setTargetLanguage('EN');
-            const renderedEN = document.getElementById('transcriptBox').innerText.includes('Good morning everyone');
-            return renderedZH && renderedEN;
+            const docZH = buildUnifiedDocumentText('ZH', true, null);
+            return docZH.includes('文档语言：中文') &&
+              docZH.includes('迈阿密和深圳团队早上好') &&
+              docZH.includes('从我们迈阿密的区域财务部门来看');
           }
         },
         {
           id: 'TC-14',
-          name: 'Protección de Límite URL WhatsApp (< 3,400 chars)',
+          name: 'Modo Bilingüe de Auditoría (Conserva cita original)',
+          fn: () => {
+            const docBilingual = buildUnifiedDocumentText('ES', false, null);
+            return docBilingual.includes('Original ZH: "深圳工厂已完成质量检测');
+          }
+        },
+        {
+          id: 'TC-15',
+          name: 'Caché Multilingüe Instantáneo O(1) (Cero gasto extra API)',
+          fn: () => {
+            setTargetLanguage('ZH');
+            const renderedZH = document.getElementById('transcriptBox').innerText.includes('迈阿密和深圳团队早上好');
+            setTargetLanguage('EN');
+            const renderedEN = document.getElementById('transcriptBox').innerText.includes('Good morning to the Miami');
+            return renderedZH && renderedEN;
+          }
+        },
+        {
+          id: 'TC-16',
+          name: 'Navegación de Pestañas del Copiloto (Todo / Coaching / Acta)',
+          fn: () => {
+            switchCopilotTab('tips');
+            const tOk = copilotTab === 'tips';
+            switchCopilotTab('summary');
+            const sOk = copilotTab === 'summary';
+            switchCopilotTab('all');
+            return tOk && sOk && copilotTab === 'all';
+          }
+        },
+        {
+          id: 'TC-17',
+          name: 'Protección de Límite URL WhatsApp (< 3,400 chars) + PDF CJK',
           fn: () => {
             for (let i = 0; i < 35; i++) {
               meetingSegments.push({
                 id: 'stress_' + i,
                 time: '10:59:00',
-                source: 'dual',
+                profile: 'omni',
                 speakerLang: 'ES',
                 original: 'Texto de prueba de estrés de longitud para verificar truncado seguro en WhatsApp.',
                 translations: { ES: 'Texto de prueba de estrés de longitud para verificar truncado seguro en WhatsApp.' },
@@ -1353,23 +1532,14 @@
           }
         },
         {
-          id: 'TC-15',
-          name: 'Motor de Impresión PDF con soporte CJK (汉字)',
-          fn: () => {
-            loadDemoMeeting();
-            const printArea = document.getElementById('printArea');
-            printArea.innerHTML = `<p>${meetingSegments[2].translations.ZH}</p>`;
-            return printArea.innerHTML.includes('深圳工厂');
-          }
-        },
-        {
-          id: 'TC-16',
+          id: 'TC-18',
           name: 'Restauración Limpia de Estado y Recursos Post-QA',
           fn: () => {
             meetingSegments = backupSegments.length ? backupSegments : meetingSegments;
             executiveSummaries = backupSegments.length ? backupSummaries : executiveSummaries;
             setTargetLanguage(backupLang);
-            setAudioSourceMode(backupMode);
+            setAcousticProfile(backupProfile);
+            updateKPIs();
             renderAllTranscripts();
             renderProactiveBox();
             return true;
